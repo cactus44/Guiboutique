@@ -50,16 +50,46 @@ public class Stock {
             refandquantite.put(reference, quantite);
         } else {
             int q = refandquantite.get(reference);
-            refandquantite.put(reference, q += quantite);
+            q+=quantite;
+            refandquantite.put(reference, q);
         }
     }
     
+    /**
+     * Donne la quantite du produit disponible dans le stock
+     * @param reference
+     * @return retourne la quantite
+     */
     public int getProduitQuantite(int reference){
         return refandquantite.get(reference);
     }
     
+    /**
+     * Enleve la quantite de produit passé en parametre
+     * 
+     * @param reference
+     * @param quantite 
+     */
     public void removeProduitFromStock(int reference, int quantite){
         int q = refandquantite.get(reference);
-        refandquantite.put(reference, q -= quantite);        
+        q-=quantite;
+        refandquantite.put(reference, q);        
+    }
+    
+    /**
+     * Donne le nom correspondant à une référence
+     * @param reference
+     * @return retourne le nom du produit
+     */
+    public String getProduitFromReference(int reference){
+        return refandproduit.get(reference).getNom();
+    }
+    /**
+     * Donne le prix correspondant à une référence
+     * @param reference
+     * @return retourne le prix de l'article
+     */
+    public int getPrixFromReference(int reference){
+        return refandproduit.get(reference).getPrix();   
     }
 }

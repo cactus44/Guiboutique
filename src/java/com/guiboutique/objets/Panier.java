@@ -24,15 +24,16 @@ public class Panier {
         this.panier = panier;  
     }
     
-    public void AddtoPanier(int reference){
+    public void addtoPanier(int reference){
         if (panier.containsKey(reference) != true){
         panier.put(reference, 1);}
         else {int q = panier.get(reference);
-        panier.put(reference, q++);
+        q++;
+        panier.put(reference, q);
         }    
     }
     
-    public Map<Integer,Integer> GetPanier(){
+    public Map<Integer,Integer> getPanier(){
         return panier;    
         }
     }
