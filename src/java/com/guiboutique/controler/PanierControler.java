@@ -6,8 +6,8 @@
 package com.guiboutique.controler;
 
 import com.guiboutique.objets.Panier;
+import com.guiboutique.objets.Stock;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PanierControler extends HttpServlet {
 
     private Panier panier;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,8 +51,22 @@ public class PanierControler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
+        
+        Stock stock = (Stock) this.getServletContext().getAttribute("stock");
+        
+        //mise à jour du stock sur confirmation
+        String confirmation = request.getParameter("confirm");
+        if("yes".equals(confirmation)){
+            for(int reference : panier.getPanier().keySet()){
+                int qt = panier.getPanier().get(reference);
+                stock.removeProduitFromStock(reference, qt);           
+            } this.getServletContext().getRequestDispatcher( "/WEB-INF/confirm.jsp" ).forward( request, response );
+        }
+        
 
         //on recupere la reference de l'article ajouté au panier
+        
         int reference = Integer.parseInt(request.getParameter("reference"));
         
         //on ajoute cette reference au panier
