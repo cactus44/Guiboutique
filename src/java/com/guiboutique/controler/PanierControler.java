@@ -60,7 +60,8 @@ public class PanierControler extends HttpServlet {
         if("yes".equals(confirmation)){
             for(int reference : panier.getPanier().keySet()){
                 int qt = panier.getPanier().get(reference);
-                stock.removeProduitFromStock(reference, qt);           
+                stock.removeProduitFromStock(reference, qt);
+                panier.getPanier().clear();
             } this.getServletContext().getRequestDispatcher( "/WEB-INF/confirm.jsp" ).forward( request, response );
         }
         

@@ -63,6 +63,9 @@
     <p>
         <a href="Catalogue">Poursuivre ma commande </a>
     </p>
+    <p>
+        <a href="PanierControler?confirm=yes">Finaliser la commande</a>
+    </p>
 
 
 
