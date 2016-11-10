@@ -35,7 +35,8 @@ for(Produit p : liste){%>
                 <td><%= p.getNom()%></td>
                 <td><%= p.getPrix()%></td>
                 <td><%= stock.getProduitQuantite(p.getReference()) %></td>
-                <td><button><a name="reference" href="PanierController?reference=<%= p.getReference()%>">Ajouter au panier</a></button>
+            
+                <td><a href="PanierControler?reference=<%= p.getReference() %>">Ajouter au panier</a></td>
             </tr>
             <%}%>
         </table>
