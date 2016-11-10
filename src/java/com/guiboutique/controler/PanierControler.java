@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 public class PanierControler extends HttpServlet {
 
     private Panier panier;
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,34 +50,31 @@ public class PanierControler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-        
+
         Stock stock = (Stock) this.getServletContext().getAttribute("stock");
-        
+
         //mise à jour du stock sur confirmation
         String confirmation = request.getParameter("confirm");
-        if("yes".equals(confirmation)){
-            for(int reference : panier.getPanier().keySet()){
+        if ("yes".equals(confirmation)) {
+            for (int reference : panier.getPanier().keySet()) {
                 int qt = panier.getPanier().get(reference);
                 stock.removeProduitFromStock(reference, qt);
-                panier.getPanier().clear();
-            } this.getServletContext().getRequestDispatcher( "/WEB-INF/confirm.jsp" ).forward( request, response );
+            }
+            panier.getPanier().clear();
+            this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
-        
 
         //on recupere la reference de l'article ajouté au panier
-        
         int reference = Integer.parseInt(request.getParameter("reference"));
-        
+
         //on ajoute cette reference au panier
         this.panier.addtoPanier(reference);
-        
+
         request.setAttribute("panier", panier);
         request.setAttribute("reference", reference);
-        
-        this.getServletContext().getRequestDispatcher( "/WEB-INF/panier.jsp" ).forward( request, response );
-        
-        
+
+        this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
+
     }
 
     /**
@@ -104,12 +100,12 @@ public class PanierControler extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
- public void init(ServletConfig config) throws ServletException {
+
+    public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        
+
         //On instancie le panier au premier chargement de la servlet seulement
-        
         Panier panier = new Panier();
         this.panier = panier;
-}}
+    }
+}
