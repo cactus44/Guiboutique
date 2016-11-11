@@ -50,8 +50,12 @@ public class Catalogue extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        /* On rend le stock accessible à toutes les servlets et JSP */
         this.getServletContext().setAttribute("stock", stock);
-
+        
+        /* On forward les requetes et reponses à la jsp catalogue qui sera chargée de faire
+        l'affichage
+        */
         this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
     }
 
@@ -79,12 +83,15 @@ public class Catalogue extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /* Le Stock n'est initialisé qu'à la premiere execution de la servlet */
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
+        /* Instantiation du Stock */
         Stock stock = new Stock();
 
+        /* Ajout de produit dans le Stock */
         stock.AddProduitintoStock(1234, new Produit(1234, "Muscadet", 2), 50);
         stock.AddProduitintoStock(1235, new Produit(1235, "Côte du Rhone", 5), 50);
         stock.AddProduitintoStock(1244, new Produit(1244, "Saint Emilion", 9), 50);
