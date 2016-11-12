@@ -8,20 +8,32 @@ package com.guiboutique.beans;
 import com.guiboutique.objets.Produit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 /**
  *
  * @author GAYG7251
  */
 @Stateless
+@TransactionManagement(TransactionManagementType.BEAN)
 public class GestionDeStockFacade implements GestionDeStockItf {
 
     @PersistenceContext
     EntityManager em;
+
+    @Resource
+    private UserTransaction ut;
 
     @Override
     public void AddProduitToStock(Produit p) {
@@ -84,12 +96,43 @@ public class GestionDeStockFacade implements GestionDeStockItf {
     }
 
     @Override
-    public void updateQuantiteDuProduit(int reference) {
+    public void updateQuantiteDuProduit(int reference, int nouvellequantite) {
+        try {
+            ut.begin();
+            Produit p = em.find(Produit.class, reference);
+            p.setPrix(nouvellequantite);
+            ut.commit();
+        } catch (Exception e) {
+            try {
+                ut.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
     }
 
     @Override
-    public void updatePrixDuProduit(int reference) {
+    public void updatePrixDuProduit(int reference, int nouveauprix) {
+        try {
+            ut.begin();
+            Produit p  = em.find(Produit.class, reference);
+            p.setPrix(nouveauprix);
+            ut.commit();
+        } catch (Exception e) { try {
+            ut.rollback();
+            } catch (IllegalStateException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SystemException ex) {
+                Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+}
 
     }
 
