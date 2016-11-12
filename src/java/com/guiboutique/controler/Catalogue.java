@@ -5,9 +5,11 @@ package com.guiboutique.controler;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Produit;
 import com.guiboutique.objets.Stock;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/Catalogue"})
 public class Catalogue extends HttpServlet {
 
-    private Stock stock;
-
+    @EJB
+    private GestionDeStockItf gds;
+  
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
