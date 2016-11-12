@@ -6,7 +6,6 @@
 package com.guiboutique.beans;
 
 import com.guiboutique.objets.Produit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +14,12 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
@@ -40,10 +42,36 @@ public class GestionDeStockFacade implements GestionDeStockItf {
         em.persist(p);
     }
 
+    /**
+     * Methode à n'utiliser qu'à la premiere execution
+     */
     @Override
     public void init() {
-        Produit p = new Produit(1235, "bouteille bordeaux2", 2, 4);
-        em.persist(p);
+        try {
+            ut.begin();
+            em.persist(new Produit(1234, "Muscadet", 2, 50));
+            em.persist(new Produit(1235, "Côte du Rhone", 5,50));
+            em.persist(new Produit(1244, "Saint Emilion", 9,50));
+            em.persist(new Produit(1246, "Saint Nicolas de Bourgueil", 4,50));
+            em.persist(new Produit(1356, "Saumur",4, 50));         
+            ut.commit();
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SystemException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RollbackException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicMixedException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (HeuristicRollbackException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalStateException ex) {
+            Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
     }
 
     /**
@@ -120,11 +148,12 @@ public class GestionDeStockFacade implements GestionDeStockItf {
     public void updatePrixDuProduit(int reference, int nouveauprix) {
         try {
             ut.begin();
-            Produit p  = em.find(Produit.class, reference);
+            Produit p = em.find(Produit.class, reference);
             p.setPrix(nouveauprix);
             ut.commit();
-        } catch (Exception e) { try {
-            ut.rollback();
+        } catch (Exception e) {
+            try {
+                ut.rollback();
             } catch (IllegalStateException ex) {
                 Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SecurityException ex) {
@@ -132,7 +161,7 @@ public class GestionDeStockFacade implements GestionDeStockItf {
             } catch (SystemException ex) {
                 Logger.getLogger(GestionDeStockFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
-}
+        }
 
     }
 

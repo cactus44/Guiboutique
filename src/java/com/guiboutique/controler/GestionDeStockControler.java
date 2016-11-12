@@ -54,8 +54,9 @@ public class GestionDeStockControler extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        /* utile seulement au premier lancement pour initialiser la base
-        gds.init(); */
+        /* utile seulement au premier lancement pour initialiser la base 
+        gds.init();
+        */
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -82,6 +83,8 @@ public class GestionDeStockControler extends HttpServlet {
             
             out.println("</body>");
             out.println("</html>");
+            
+            
         }
         
     }
