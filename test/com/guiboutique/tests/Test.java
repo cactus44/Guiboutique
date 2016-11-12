@@ -20,13 +20,13 @@ public class Test {
         Stock stock = new Stock();
 
         //Ajout d'un produit dans le stock
-        Produit produit = new Produit(23466, "Chaise", 22);
+        Produit produit = new Produit(23466, "Chaise", 22,50);
         stock.AddProduitintoStock(produit.getReference(), produit, 2);
         //Ajout d'un second exemplaire du même produit
         stock.AddProduitintoStock(produit.getReference(), produit, 2);
 
         //Ajout d'un nouvel article
-        Produit produit1 = new Produit(23468, "Boulon", 122);
+        Produit produit1 = new Produit(23468, "Boulon", 122,50);
         stock.AddProduitintoStock(produit1.getReference(), produit1, 5);
         
         stock.removeProduitFromStock(produit1.getReference(), 2);

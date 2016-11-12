@@ -5,20 +5,30 @@
  */
 package com.guiboutique.objets;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  *
  * @author GAYG7251
  */
+@Entity
 public class Produit {
     
+    @Id
     private int reference;
     private String nom;
     private int prix;
+    private int quantite;
 
-    public Produit(int reference, String nom, int prix) {
+    public Produit() {
+    }
+
+    public Produit(int reference, String nom, int prix, int quantite) {
         this.reference = reference;
         this.nom = nom;
         this.prix = prix;
+        this.quantite = quantite;
     }
 
     public int getReference() {
@@ -39,6 +49,6 @@ public class Produit {
 
     @Override
     public String toString() {
-        return "Bouteille{" + "reference=" + reference + ", nom=" + nom + ", prix=" + prix + '}';
+        return "Produit{" + "reference=" + reference + ", nom=" + nom + ", prix=" + prix + '}';
     } 
 }

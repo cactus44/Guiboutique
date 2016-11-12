@@ -1,14 +1,14 @@
-package com.guiboutique.controler;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.guiboutique.objets.Produit;
-import com.guiboutique.objets.Stock;
+package com.guiboutique.controler;
+
+import com.guiboutique.beans.GestionDeStockItf;
 import java.io.IOException;
-import javax.servlet.ServletConfig;
+import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +19,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author GAYG7251
  */
-@WebServlet(urlPatterns = {"/Catalogue"})
-public class Catalogue extends HttpServlet {
-
-    private Stock stock;
+@WebServlet(name = "GestionDeStockControler", urlPatterns = {"/GestionDeStockControler"})
+public class GestionDeStockControler extends HttpServlet {
+    
+    @EJB
+    private GestionDeStockItf gds;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,6 +36,7 @@ public class Catalogue extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,14 +51,7 @@ public class Catalogue extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        /* On rend le stock accessible à toutes les servlets et JSP */
-        this.getServletContext().setAttribute("stock", stock);
-        
-        /* On forward les requetes et reponses à la jsp catalogue qui sera chargée de faire
-        l'affichage
-        */
-        this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
+gds.init();
     }
 
     /**
@@ -83,20 +78,4 @@ public class Catalogue extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    /* Le Stock n'est initialisé qu'à la premiere execution de la servlet */
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-
-        /* Instantiation du Stock */
-        Stock stock = new Stock();
-
-        /* Ajout de produit dans le Stock */
-        stock.AddProduitintoStock(1234, new Produit(1234, "Muscadet", 2,50), 50);
-        stock.AddProduitintoStock(1235, new Produit(1235, "Côte du Rhone", 5,50), 50);
-        stock.AddProduitintoStock(1244, new Produit(1244, "Saint Emilion", 9,50), 50);
-        stock.AddProduitintoStock(1246, new Produit(1246, "Saint Nicolas de Bourgueil", 4,50), 50);
-        stock.AddProduitintoStock(1356, new Produit(1356, "Saumur",4, 50), 50);
-        this.stock = stock;
-    }
 }
