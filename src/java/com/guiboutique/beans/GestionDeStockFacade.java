@@ -128,7 +128,7 @@ public class GestionDeStockFacade implements GestionDeStockItf {
         try {
             ut.begin();
             Produit p = em.find(Produit.class, reference);
-            p.setPrix(nouvellequantite);
+            p.setQuantite(nouvellequantite);
             ut.commit();
         } catch (Exception e) {
             try {
@@ -163,6 +163,11 @@ public class GestionDeStockFacade implements GestionDeStockItf {
             }
         }
 
+    }
+
+    @Override
+    public Produit getProduit(int reference) {
+        return em.find(Produit.class, reference);
     }
 
 }

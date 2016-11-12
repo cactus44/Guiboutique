@@ -7,7 +7,6 @@ package com.guiboutique.controler;
  */
 import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Produit;
-import com.guiboutique.objets.Stock;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;

@@ -30,5 +30,7 @@ public interface GestionDeStockItf {
     public void updateQuantiteDuProduit(int reference,int nouvellequantite);
     
     public void updatePrixDuProduit(int reference, int nouveauprix);
+    
+    public Produit getProduit(int reference);
       
 }

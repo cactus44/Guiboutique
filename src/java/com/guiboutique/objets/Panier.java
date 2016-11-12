@@ -13,33 +13,52 @@ import java.util.Map;
  * @author GAYG7251
  */
 public class Panier {
-    
+
     private Produit produit;
     private int reference;
     private int quantite;
-    private Map<Integer,Integer> panier;
+    private Map<Integer, Integer> panier;
+    private Map<Integer, Produit> refandproduit;
 
     public Panier() {
-        Map<Integer,Integer> panier = new HashMap<>();
-        this.panier = panier;  
+        panier = new HashMap<>();
+        this.panier = panier;
+
+        refandproduit = new HashMap<>();
+        this.refandproduit = refandproduit;
     }
-    
-    public void addtoPanier(int reference){
-        if (panier.containsKey(reference) != true){
-        panier.put(reference, 1);}
-        else {int q = panier.get(reference);
-        q++;
-        panier.put(reference, q);
-        }    
-    }
-    
-    public Map<Integer,Integer> getPanier(){
-        return panier;    
+
+    public void addtoPanier(int reference, Produit produit) {
+        if (panier.containsKey(reference) != true) {
+            panier.put(reference, 1);
+            refandproduit.put(reference, produit);
+            this.refandproduit = refandproduit;
+
+        } else {
+            //on recupere la quantite pour une reference donnée
+            int q = panier.get(reference);
+            q++;
+            panier.put(reference, q);
+            this.panier = panier;
+
         }
     }
-    
 
-    
-    
-    
+    /**
+     * Map contenant en key la reference produit et en value la quantite
+     *
+     * @return
+     */
+    public Map<Integer, Integer> getQuantitesFromReferences() {
+        return panier;
+    }
 
+    /**
+     * Map contenant en key la reference produit et en value le produit
+     *
+     * @return
+     */
+    public Map<Integer, Produit> getReferencesProduits() {
+        return refandproduit;
+    }
+}
