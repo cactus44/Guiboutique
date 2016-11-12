@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GestionDeStockControler", urlPatterns = {"/GestionDeStockControler"})
 public class GestionDeStockControler extends HttpServlet {
-    
+
     @EJB
     private GestionDeStockItf gds;
 
@@ -51,7 +51,24 @@ public class GestionDeStockControler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-gds.init();
+        
+        /* utile seulement au premier lancement pour initialiser la base
+        gds.init(); */
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<p>" + gds.getNomDuProduit(1234) + "</p>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+        
     }
 
     /**

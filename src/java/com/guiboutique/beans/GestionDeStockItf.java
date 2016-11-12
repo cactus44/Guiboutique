@@ -6,6 +6,7 @@
 package com.guiboutique.beans;
 
 import com.guiboutique.objets.Produit;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -17,5 +18,14 @@ public interface GestionDeStockItf {
     
     public void AddProduitToStock(Produit p);   
     public void init();
+    
+    public String getNomDuProduit(int reference);
+    
+    public int getPrixDuProduit(int reference);
+    
+    public int getQuantiteDuProduit(int reference);
+    
+    public List<Produit> getListeDesProduitsEnStock();
+    
     
 }
