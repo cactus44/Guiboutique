@@ -83,20 +83,5 @@ public class Catalogue extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    /* Le Stock n'est initialisé qu'à la premiere execution de la servlet */
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
 
-        /* Instantiation du Stock */
-        Stock stock = new Stock();
-
-        /* Ajout de produit dans le Stock */
-        stock.AddProduitintoStock(1234, new Produit(1234, "Muscadet", 2,50), 50);
-        stock.AddProduitintoStock(1235, new Produit(1235, "Côte du Rhone", 5,50), 50);
-        stock.AddProduitintoStock(1244, new Produit(1244, "Saint Emilion", 9,50), 50);
-        stock.AddProduitintoStock(1246, new Produit(1246, "Saint Nicolas de Bourgueil", 4,50), 50);
-        stock.AddProduitintoStock(1356, new Produit(1356, "Saumur",4, 50), 50);
-        this.stock = stock;
-    }
 }
