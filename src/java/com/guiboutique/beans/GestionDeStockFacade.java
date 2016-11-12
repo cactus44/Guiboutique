@@ -110,7 +110,7 @@ public class GestionDeStockFacade implements GestionDeStockItf {
     @Override
     public int getQuantiteDuProduit(int reference) {
         Produit p = em.find(Produit.class, reference);
-        return p.getPrix();
+        return p.getQuantite();
     }
 
     @Override

@@ -80,6 +80,8 @@ public class GestionDeStockControler extends HttpServlet {
             out.println("<p>Mise à jour du prix du produit 1234 à 80 euros</p>");
             gds.updatePrixDuProduit(1234, 80);
             out.println("<p>verif, nouveau prix : " + gds.getPrixDuProduit(1234) );
+            gds.updateQuantiteDuProduit(1234, 200);
+            gds.updateQuantiteDuProduit(1235, 50);
             
             out.println("</body>");
             out.println("</html>");

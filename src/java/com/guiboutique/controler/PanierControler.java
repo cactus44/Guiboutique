@@ -72,7 +72,7 @@ public class PanierControler extends HttpServlet {
                 
                 //pour chaque article, on destocke                 
                 int qstock = gds.getQuantiteDuProduit(reference);
-                int newquantite = qstock - qt;
+                int newquantite = (qstock - qt);
                 gds.updateQuantiteDuProduit(reference, newquantite);
             }
             
