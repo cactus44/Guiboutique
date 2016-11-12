@@ -27,5 +27,8 @@ public interface GestionDeStockItf {
     
     public List<Produit> getListeDesProduitsEnStock();
     
+    public void updateQuantiteDuProduit(int reference);
     
+    public void updatePrixDuProduit(int reference);
+      
 }

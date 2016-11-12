@@ -77,10 +77,20 @@ public class GestionDeStockFacade implements GestionDeStockItf {
     public List<Produit> getListeDesProduitsEnStock() {
         //on initialise la requête qui sera passée
         Query q = em.createQuery("select OBJECT(p) from Produit p");
-           
+
         //on stocke le resultat dans une liste
         List<Produit> liste = (List<Produit>) q.getResultList();
-        return liste;     
+        return liste;
+    }
+
+    @Override
+    public void updateQuantiteDuProduit(int reference) {
+
+    }
+
+    @Override
+    public void updatePrixDuProduit(int reference) {
+
     }
 
 }
