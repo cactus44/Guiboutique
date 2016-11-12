@@ -24,19 +24,18 @@
             <th>prix</th>
             <th>quantité</th>
             <th>panier</th>
-        
-        <% Stock stock = (Stock)application.getAttribute("stock");
-        List<Produit> liste = stock.getAllProduitsFromStock();
-for(Produit p : liste){%>
 
-        
+            <% List<Produit> stock = (List<Produit>) application.getAttribute("stock");
+                for (Produit p : stock) {%>
+
+
             <tr>
                 <td><%= p.getReference()%></td>
                 <td><%= p.getNom()%></td>
                 <td><%= p.getPrix()%></td>
-                <td><%= stock.getProduitQuantite(p.getReference()) %></td>
-            
-                <td><a href="PanierControler?reference=<%= p.getReference() %>">Ajouter au panier</a></td>
+                <td><%= p.getQuantite() %></td>
+
+                <td><a href="PanierControler?reference=<%= p.getReference()%>">Ajouter au panier</a></td>
             </tr>
             <%}%>
         </table>

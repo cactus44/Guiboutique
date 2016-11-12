@@ -9,6 +9,7 @@ import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Produit;
 import com.guiboutique.objets.Stock;
 import java.io.IOException;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -53,7 +54,9 @@ public class Catalogue extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        /* On rend le stock accessible à toutes les servlets et JSP */
+        /* On récupère le contenu du stock */
+        List<Produit> stock = gds.getListeDesProduitsEnStock();
+        /* On rend le stock accessible à toutes les servlets et JSP */     
         this.getServletContext().setAttribute("stock", stock);
         
         /* On forward les requetes et reponses à la jsp catalogue qui sera chargée de faire
