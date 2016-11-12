@@ -6,8 +6,10 @@
 package com.guiboutique.controler;
 
 import com.guiboutique.beans.GestionDeStockItf;
+import com.guiboutique.objets.Produit;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,7 +66,16 @@ public class GestionDeStockControler extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            out.println("<p>" + gds.getNomDuProduit(1234) + "</p>");
+            out.println("<p>le nom du produit referencé 1234 est " + gds.getNomDuProduit(1234) + "</p>");
+            out.println("<p>le prix du produit referencé 1234 est " + gds.getPrixDuProduit(1234) + "</p>");
+            out.println("<p>la quantite du produit referencé 1234 est " + gds.getQuantiteDuProduit(1234) + "</p>");
+            out.println("<p>TEST Liste</p>");
+            List<Produit> liste = gds.getListeDesProduitsEnStock();
+            for(Produit p : liste){
+                out.println("<p>produit reference : " + p.getReference() + 
+                " produit nom : " + p.getNom() + " prix : " + p.getPrix() 
+                + " quantite : " + p.getQuantite() + "</p>" );  
+            }
             out.println("</body>");
             out.println("</html>");
         }
