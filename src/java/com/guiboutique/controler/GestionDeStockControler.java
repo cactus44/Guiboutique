@@ -1,16 +1,16 @@
-package com.guiboutique.controler;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.guiboutique.controler;
+
 import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Produit;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author GAYG7251
  */
-@WebServlet(urlPatterns = {"/Catalogue"})
-public class Catalogue extends HttpServlet {
+@WebServlet(name = "GestionDeStockControler", urlPatterns = {"/GestionDeStockControler"})
+public class GestionDeStockControler extends HttpServlet {
 
     @EJB
     private GestionDeStockItf gds;
-  
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,6 +38,7 @@ public class Catalogue extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -52,16 +53,42 @@ public class Catalogue extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        /* On récupère le contenu du stock */
-        List<Produit> stock = gds.getListeDesProduitsEnStock();
-        /* On rend le stock accessible à toutes les servlets et JSP */     
-        this.getServletContext().setAttribute("stock", stock);
         
-        /* On forward les requetes et reponses à la jsp catalogue qui sera chargée de faire
-        l'affichage
+        /* utile seulement au premier lancement pour initialiser la base 
+        gds.init();
         */
-        this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet NewServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
+            out.println("<p>le nom du produit referencé 1234 est " + gds.getNomDuProduit(1234) + "</p>");
+            out.println("<p>le prix du produit referencé 1234 est " + gds.getPrixDuProduit(1234) + "</p>");
+            out.println("<p>la quantite du produit referencé 1234 est " + gds.getQuantiteDuProduit(1234) + "</p>");
+            out.println("<p>TEST Liste</p>");
+            List<Produit> liste = gds.getListeDesProduitsEnStock();
+            for(Produit p : liste){
+                out.println("<p>produit reference : " + p.getReference() + 
+                " produit nom : " + p.getNom() + " prix : " + p.getPrix() 
+                + " quantite : " + p.getQuantite() + "</p>" );  
+            }
+            out.println("<p>Mise à jour du prix du produit 1234 à 80 euros</p>");
+            gds.updatePrixDuProduit(1234, 80);
+            out.println("<p>verif, nouveau prix : " + gds.getPrixDuProduit(1234) );
+            gds.updateQuantiteDuProduit(1234, 200);
+            gds.updateQuantiteDuProduit(1235, 50);
+            
+            out.println("</body>");
+            out.println("</html>");
+            
+            
+        }
+        
     }
 
     /**
@@ -87,6 +114,5 @@ public class Catalogue extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }

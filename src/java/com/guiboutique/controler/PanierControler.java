@@ -5,9 +5,13 @@
  */
 package com.guiboutique.controler;
 
+import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Panier;
-import com.guiboutique.objets.Stock;
+import com.guiboutique.objets.Produit;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +26,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PanierControler", urlPatterns = {"/PanierControler"})
 public class PanierControler extends HttpServlet {
 
+    /* On permet l'accès au stock depuis cette servlet, ca sera plus pratique
+    pour destocker */
+    @EJB
+    private GestionDeStockItf gds;
+
     private Panier panier;
+    private List<Produit> liste;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,27 +61,36 @@ public class PanierControler extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Stock stock = (Stock) this.getServletContext().getAttribute("stock");
-
         //mise à jour du stock sur confirmation
         String confirmation = request.getParameter("confirm");
         if ("yes".equals(confirmation)) {
-            for (int reference : panier.getPanier().keySet()) {
-                int qt = panier.getPanier().get(reference);
-                stock.removeProduitFromStock(reference, qt);
+
+            /* on itère sur chacune des clefs contenues dans la map et on
+            recupère la value associée et on destocke */
+            for (int reference : panier.getQuantitesFromReferences().keySet()) {
+                int qt = panier.getQuantitesFromReferences().get(reference);
+                
+                //pour chaque article, on destocke                 
+                int qstock = gds.getQuantiteDuProduit(reference);
+                int newquantite = (qstock - qt);
+                gds.updateQuantiteDuProduit(reference, newquantite);
             }
-            panier.getPanier().clear();
+            
+            //on vide le panier
+            panier.getQuantitesFromReferences().clear();
+            panier.getReferencesProduits().clear();
+            
             this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
 
         //on recupere la reference de l'article ajouté au panier
         int reference = Integer.parseInt(request.getParameter("reference"));
 
-        //on ajoute cette reference au panier
-        this.panier.addtoPanier(reference);
+        //on ajoute la reference et le produit associé au panier
+        this.panier.addtoPanier(reference, gds.getProduit(reference));
 
         request.setAttribute("panier", panier);
-        request.setAttribute("reference", reference);
+        //request.setAttribute("reference", reference);
 
         this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
 
@@ -107,5 +126,7 @@ public class PanierControler extends HttpServlet {
         //On instancie le panier au premier chargement de la servlet seulement
         Panier panier = new Panier();
         this.panier = panier;
+        
     }
+
 }

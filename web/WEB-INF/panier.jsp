@@ -4,6 +4,8 @@
     Author     : GAYG7251
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.guiboutique.objets.Produit"%>
 <%@page import="com.guiboutique.objets.Stock"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Set"%>
@@ -20,46 +22,58 @@
     <h1>Panier</h1>
 
 
-        
-        <table>
-            <th>reference</th>
-            <th>nom</th>
-            <th>quantite</th>
-            <th>prix unitaire</th>
-            <th>montant</th>
-            
-                <% Integer s = (Integer) request.getAttribute("reference");
-        Panier p = (Panier) request.getAttribute("panier");
-        Stock stock = (Stock) application.getAttribute("stock");
 
-        int montant = 0;
-        for(int reference : p.getPanier().keySet()){
-            int quantite = p.getPanier().get(reference);
-            String nom = stock.getProduitFromReference(reference);
-            int prix = stock.getPrixFromReference(reference);
-            
-            montant += (prix * quantite);
+    <table>
+        <th>reference</th>
+        <th>nom</th>
+        <th>quantite</th>
+        <th>prix unitaire</th>
+        <th>montant</th>
 
-     %>
-            <tr><td><%= reference%></td>
-                <td><%= nom %></td>
-                <td><%= quantite %></td>
-                <td><%= prix %></td>
-                <td><%= prix * quantite%></td>
-            </tr>
-            <%}%>
-            <tr>
-                <td>Montant Total en Euros</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><%= montant%></td>
-            </tr>
-            
-            
-            
-        </table>
-            
+        <%
+
+            Panier panier = (Panier) request.getAttribute("panier");
+            // Liste des produits ajoutés au panier
+            //List<Produit> liste = (List<Produit>) request.getAttribute("liste");
+
+            //Variable pour calcul du montant du panier
+            int montant = 0;
+
+            /*  for (Produit p : liste){
+            Pour chaque produit ajouté au panier , je recupere la référence
+           que j'utilise pour récupere la quantite ajoutée au panier 
+                int quantite = panier.getPanier().get(p.getReference());
+                montant += p.getPrix();
+             */
+            for (int reference : panier.getReferencesProduits().keySet()) {
+                Produit p = panier.getReferencesProduits().get(reference);
+
+                int quantite = panier.getQuantitesFromReferences().get(reference);
+             
+                //calcul du montant total
+                montant += (p.getPrix() * quantite);
+
+
+        %>
+        <tr><td><%= p.getReference()%></td>
+            <td><%= p.getNom()%></td>
+            <td><%= quantite%></td>
+            <td><%= p.getPrix()%></td>
+            <td><%= p.getPrix() * quantite%></td>
+        </tr>
+        <%}%>
+        <tr>
+            <td>Montant Total en Euros</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><%= montant%></td>
+        </tr>
+
+
+
+    </table>
+
     <p>
         <a href="Catalogue">Poursuivre ma commande </a>
     </p>
