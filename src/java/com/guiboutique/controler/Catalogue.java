@@ -10,7 +10,6 @@ import com.guiboutique.objets.Produit;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(urlPatterns = {"/Catalogue"})
 public class Catalogue extends HttpServlet {
 
+    //Injection de dépendance de façon à pouvoir utiliser l'interface
     @EJB
     private GestionDeStockItf gds;
   
@@ -53,12 +53,13 @@ public class Catalogue extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        /* On récupère le contenu du stock */
+        /* On récupère le contenu du stock, on place tous les objets Produit 
+        dans une liste */
         List<Produit> stock = gds.getListeDesProduitsEnStock();
-        /* On rend le stock accessible à toutes les servlets et JSP */     
+        /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */     
         this.getServletContext().setAttribute("stock", stock);
         
-        /* On forward les requetes et reponses à la jsp catalogue qui sera chargée de faire
+        /* On forward les requetes et reponses à la jsp catalogue.jsp qui sera chargée de faire
         l'affichage
         */
         this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);

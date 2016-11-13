@@ -9,7 +9,6 @@ import com.guiboutique.beans.GestionDeStockItf;
 import com.guiboutique.objets.Panier;
 import com.guiboutique.objets.Produit;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
@@ -26,11 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "PanierControler", urlPatterns = {"/PanierControler"})
 public class PanierControler extends HttpServlet {
 
-    /* On permet l'accès au stock depuis cette servlet, ca sera plus pratique
-    pour destocker */
+    /* On permet l'accès au stock à cette servlet, ca sera plus pratique
+    pour destocker (inclusion EJB) */
     @EJB
     private GestionDeStockItf gds;
-
+    /* Variables */
     private Panier panier;
     private List<Produit> liste;
 
@@ -61,7 +60,7 @@ public class PanierControler extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //mise à jour du stock sur confirmation
+        //mise à jour du stock sur confirmation (uri:PanierControler?confirm=yes)
         String confirmation = request.getParameter("confirm");
         if ("yes".equals(confirmation)) {
 
@@ -69,17 +68,16 @@ public class PanierControler extends HttpServlet {
             recupère la value associée et on destocke */
             for (int reference : panier.getQuantitesFromReferences().keySet()) {
                 int qt = panier.getQuantitesFromReferences().get(reference);
-                
+
                 //pour chaque article, on destocke                 
                 int qstock = gds.getQuantiteDuProduit(reference);
                 int newquantite = (qstock - qt);
                 gds.updateQuantiteDuProduit(reference, newquantite);
             }
-            
             //on vide le panier
             panier.getQuantitesFromReferences().clear();
             panier.getReferencesProduits().clear();
-            
+            // on redirige sur la page de confirmation en utilisant le dispatcher
             this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
 
@@ -120,13 +118,14 @@ public class PanierControler extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
 
         //On instancie le panier au premier chargement de la servlet seulement
         Panier panier = new Panier();
         this.panier = panier;
-        
+
     }
 
 }

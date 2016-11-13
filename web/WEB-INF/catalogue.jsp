@@ -16,7 +16,7 @@
         <title>La Guiboutique</title>
     </head>
     <body> 
-        <h1>Liste des produits en Stock via Servlet</h1>
+        <h1>Liste des produits en Stock</h1>
 
         <table>
             <th>référence</th>
@@ -25,15 +25,18 @@
             <th>quantité</th>
             <th>panier</th>
 
-            <% List<Produit> stock = (List<Produit>) application.getAttribute("stock");
-                for (Produit p : stock) {%>
+            <%-- On récupère une liste de produit fournie par la servlet Catalogue --%>
+            <% List<Produit> stock = (List<Produit>) application.getAttribute("stock"); %>
+
+            <%-- Pour chaque produit , on ajoute une ligne dans le tableau ... --%>
+            <% for (Produit p : stock) {%>
 
 
             <tr>
                 <td><%= p.getReference()%></td>
                 <td><%= p.getNom()%></td>
                 <td><%= p.getPrix()%></td>
-                <td><%= p.getQuantite() %></td>
+                <td><%= p.getQuantite()%></td>
 
                 <td><a href="PanierControler?reference=<%= p.getReference()%>">Ajouter au panier</a></td>
             </tr>
