@@ -81,17 +81,20 @@ public class PanierControler extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
 
-        //on recupere la reference de l'article ajouté au panier
+        //On recupere la reference de l'article que l'on va ajouter à l'objet Panier
         int reference = Integer.parseInt(request.getParameter("reference"));
 
-        //on ajoute la reference et le produit associé au panier
+        /*On ajoute la reference et le produit associé dans l'objet Panier. On
+        récupère l'Objet Produit dans la base de donnée à partir de la référence
+        passée en paramètre dans l'url (clé primaire), ils sont ensuite passées
+        en paramêtres
+         */
         this.panier.addtoPanier(reference, gds.getProduit(reference));
 
+        //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
         request.setAttribute("panier", panier);
-        //request.setAttribute("reference", reference);
-
+        //On redirige vers panier.jsp
         this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
-
     }
 
     /**
@@ -118,6 +121,13 @@ public class PanierControler extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    /**
+     * Méthode appelée au premier chargement de la servlet , on l'utilise ici
+     * pour instancier un Panier
+     *
+     * @param config
+     * @throws ServletException
+     */
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);

@@ -16,7 +16,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="newcss.css">
-    <title>JSP Page</title>
+    <title>La Guiboutique</title>
 </head>
 <body>
     <h1>Panier</h1>
@@ -31,29 +31,21 @@
         <th>montant</th>
 
         <%
-
+            //On récupère le panier dans la JSP
             Panier panier = (Panier) request.getAttribute("panier");
-            // Liste des produits ajoutés au panier
-            //List<Produit> liste = (List<Produit>) request.getAttribute("liste");
 
             //Variable pour calcul du montant du panier
             int montant = 0;
 
-            /*  for (Produit p : liste){
-            Pour chaque produit ajouté au panier , je recupere la référence
-           que j'utilise pour récupere la quantite ajoutée au panier 
-                int quantite = panier.getPanier().get(p.getReference());
-                montant += p.getPrix();
-             */
+            /* Pour chaque produit ajouté au Panier(Map) , je recupere la référence
+            /* que j'utilise ensuite pour récuperer la quantite ajoutée au panier */
             for (int reference : panier.getReferencesProduits().keySet()) {
+                //On récupère le produit associé à la réfénce passée en paramètre
                 Produit p = panier.getReferencesProduits().get(reference);
-
+                //On récupère la quantit associée à la référence passée en paramètre
                 int quantite = panier.getQuantitesFromReferences().get(reference);
-             
-                //calcul du montant total
+                //Calcul du montant total
                 montant += (p.getPrix() * quantite);
-
-
         %>
         <tr><td><%= p.getReference()%></td>
             <td><%= p.getNom()%></td>

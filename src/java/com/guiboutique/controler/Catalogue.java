@@ -17,16 +17,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Servlet Catalogue
  *
  * @author GAYG7251
  */
 @WebServlet(urlPatterns = {"/Catalogue"})
 public class Catalogue extends HttpServlet {
 
-    //Injection de dépendance de façon à pouvoir utiliser l'interface
+    /*Injection de dépendance de façon à pouvoir utiliser l'interface et les
+    méthodes associées */
     @EJB
     private GestionDeStockItf gds;
-  
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,12 +58,11 @@ public class Catalogue extends HttpServlet {
         /* On récupère le contenu du stock, on place tous les objets Produit 
         dans une liste */
         List<Produit> stock = gds.getListeDesProduitsEnStock();
-        /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */     
+        /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */
         this.getServletContext().setAttribute("stock", stock);
-        
         /* On forward les requetes et reponses à la jsp catalogue.jsp qui sera chargée de faire
         l'affichage
-        */
+         */
         this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
     }
 
@@ -88,6 +89,5 @@ public class Catalogue extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }
