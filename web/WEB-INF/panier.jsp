@@ -19,9 +19,11 @@
     <title>La Guiboutique</title>
 </head>
 <body>
+    session     <%= session.getId() %>
+    creation time <%= session.getCreationTime() %>
+    
     <h1>Panier</h1>
-
-
+    
 
     <table>
         <th>reference</th>
@@ -32,18 +34,21 @@
 
         <%
             //On récupère le panier dans la JSP
-            Panier panier = (Panier) request.getAttribute("panier");
+            Panier panier = (Panier) session.getAttribute("panier");
 
             //Variable pour calcul du montant du panier
             int montant = 0;
 
             /* Pour chaque produit ajouté au Panier(Map) , je recupere la référence
             /* que j'utilise ensuite pour récuperer la quantite ajoutée au panier */
+            
             for (int reference : panier.getReferencesProduits().keySet()) {
-                //On récupère le produit associé à la réfénce passée en paramètre
+                //On récupère le produit associé à la référence passée en paramètre (la référence est la clé de la Map)
                 Produit p = panier.getReferencesProduits().get(reference);
-                //On récupère la quantit associée à la référence passée en paramètre
+                
+                //On récupère la quantité associée à la référence passée en paramètre
                 int quantite = panier.getQuantitesFromReferences().get(reference);
+                
                 //Calcul du montant total
                 montant += (p.getPrix() * quantite);
         %>

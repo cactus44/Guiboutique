@@ -28,9 +28,25 @@ public class Panier {
         this.refandproduit = refandproduit;
     }
 
+    /**
+     * Ajoute dans la Map panier contenant en
+     * clé la référence du produit et en valeur
+     * la quantité 
+     * 
+     */
+    
     public void addtoPanier(int reference, Produit produit) {
+        /*
+        Dans une Map la cle devant etre unique , on verrifie
+        quelle n'existe pas déja, si elle existe déja on met
+        seulement à jour la quantité
+        */
         if (panier.containsKey(reference) != true) {
             panier.put(reference, 1);
+            /*
+            On créé une seconde Map pour éviter de faire une
+            requete en base pour trouver le produit correspondant à une référence
+            */
             refandproduit.put(reference, produit);
             this.refandproduit = refandproduit;
 

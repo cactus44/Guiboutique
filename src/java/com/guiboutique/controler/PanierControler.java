@@ -11,12 +11,12 @@ import com.guiboutique.objets.Produit;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,7 +30,6 @@ public class PanierControler extends HttpServlet {
     @EJB
     private GestionDeStockItf gds;
     /* Variables */
-    private Panier panier;
     private List<Produit> liste;
 
     /**
@@ -66,6 +65,7 @@ public class PanierControler extends HttpServlet {
 
             /* on itère sur chacune des clefs contenues dans la map et on
             recupère la value associée et on destocke */
+            Panier panier = (Panier) request.getSession().getAttribute("panier");
             for (int reference : panier.getQuantitesFromReferences().keySet()) {
                 int qt = panier.getQuantitesFromReferences().get(reference);
 
@@ -74,12 +74,17 @@ public class PanierControler extends HttpServlet {
                 int newquantite = (qstock - qt);
                 gds.updateQuantiteDuProduit(reference, newquantite);
             }
+
             //on vide le panier
             panier.getQuantitesFromReferences().clear();
             panier.getReferencesProduits().clear();
+            request.getSession().removeAttribute("panier");
             // on redirige sur la page de confirmation en utilisant le dispatcher
             this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
+
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(1800);
 
         //On recupere la reference de l'article que l'on va ajouter à l'objet Panier
         int reference = Integer.parseInt(request.getParameter("reference"));
@@ -89,10 +94,22 @@ public class PanierControler extends HttpServlet {
         passée en paramètre dans l'url (clé primaire), ils sont ensuite passées
         en paramêtres
          */
-        this.panier.addtoPanier(reference, gds.getProduit(reference));
+ /*
+        On vérifie que l'internaute n'a pas déja un panier, si n'est pas le cas on en
+        instancie 1 , sinon on réutilise celui de la session de l'internaute
+         */
+        if (session.getAttribute("panier") == null) {
+            Panier panier = new Panier();
+            panier.addtoPanier(reference, gds.getProduit(reference));
+             //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
+            session.setAttribute("panier", panier);
+        } else {
+            Panier panier = (Panier) session.getAttribute("panier");
+            panier.addtoPanier(reference, gds.getProduit(reference));
+             //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
+            session.setAttribute("panier", panier);
+        }
 
-        //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
-        request.setAttribute("panier", panier);
         //On redirige vers panier.jsp
         this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
     }
@@ -121,21 +138,5 @@ public class PanierControler extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    /**
-     * Méthode appelée au premier chargement de la servlet , on l'utilise ici
-     * pour instancier un Panier
-     *
-     * @param config
-     * @throws ServletException
-     */
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-
-        //On instancie le panier au premier chargement de la servlet seulement
-        Panier panier = new Panier();
-        this.panier = panier;
-
-    }
-
+   
 }
