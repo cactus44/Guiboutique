@@ -12,13 +12,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="newcss.css">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <title>La Guiboutique</title>
     </head>
     <body> 
         <h1>Liste des produits en Stock</h1>
 
-        <table>
+        <table class="table table-bordered">
             <th>référence</th>
             <th>nom</th>
             <th>prix</th>

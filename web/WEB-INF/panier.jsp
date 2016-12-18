@@ -15,17 +15,19 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="newcss.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <title>La Guiboutique</title>
 </head>
 <body>
-    session     <%= session.getId() %>
-    creation time <%= session.getCreationTime() %>
-    
-    <h1>Panier</h1>
-    
+    session     <%= session.getId()%>
+    creation time <%= session.getCreationTime()%>
 
-    <table>
+    <h1>Panier</h1>
+
+
+    <table class="table table-bordered">
         <th>reference</th>
         <th>nom</th>
         <th>quantite</th>
@@ -41,14 +43,13 @@
 
             /* Pour chaque produit ajouté au Panier(Map) , je recupere la référence
             /* que j'utilise ensuite pour récuperer la quantite ajoutée au panier */
-            
             for (int reference : panier.getReferencesProduits().keySet()) {
                 //On récupère le produit associé à la référence passée en paramètre (la référence est la clé de la Map)
                 Produit p = panier.getReferencesProduits().get(reference);
-                
+
                 //On récupère la quantité associée à la référence passée en paramètre
                 int quantite = panier.getQuantitesFromReferences().get(reference);
-                
+
                 //Calcul du montant total
                 montant += (p.getPrix() * quantite);
         %>
