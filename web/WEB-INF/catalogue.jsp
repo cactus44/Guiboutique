@@ -4,6 +4,7 @@
     Author     : GAYG7251
 --%>
 
+<%@page import="com.guiboutique.objets.Panier"%>
 <%@page import="java.util.List"%>
 <%@page import="com.guiboutique.objets.Produit"%>
 <%@page import="com.guiboutique.objets.Stock"%>
@@ -39,6 +40,7 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+       <!-- <style type="text/css">[class*="col"] { margin-bottom: 20px; }</style> -->
     </head>
 
     <body>
@@ -58,48 +60,62 @@
                     <ul class="nav navbar-nav">
                         <li ><a href="/Guiboutique">Accueil</a></li>
                         <li class="active"><a href="Catalogue">Catalogue</a></li>
+                        <li class="inactive"><a href="PanierControler?action=panier">Mon Panier</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
+        
+
+       
 
         <div class="page-header">
             <h1>Liste des produits en stock</h1>
+            <p>        <% Panier panier = (Panier) session.getAttribute("panier"); %>
+                Vous avez <%=panier.getNbArticles()%> articles dans votre panier. </p>
         </div>
 
-        <table class="table table-bordered">
-            <th>Référence</th>
-            <th>Nom du produit</th>
-            <th>Prix</th>
-            <th>Quantité disponible</th>
-            <th>Panier</th>
+        <div class="container">
+            <section class="row">
+                <div class="col-lg-8"> 
+                    <table class="table table-bordered">
+                        <th>Référence</th>
+                        <th>Nom du produit</th>
+                        <th>Prix</th>
+                        <th>Quantité disponible</th>
+                        <th>Panier</th>
 
-            <%-- On récupère une liste de produit fournie par la servlet Catalogue --%>
-            <% List<Produit> stock = (List<Produit>) application.getAttribute("stock"); %>
+                        <%-- On récupère une liste de produit fournie par la servlet Catalogue --%>
+                        <% List<Produit> stock = (List<Produit>) application.getAttribute("stock"); %>
 
-            <%-- Pour chaque produit , on ajoute une ligne dans le tableau ... --%>
-            <% for (Produit p : stock) {%>
-
-
-            <tr>
-                <td><%= p.getReference()%></td>
-                <td><%= p.getNom()%></td>
-                <td><%= p.getPrix()%></td>
-                <td><%= p.getQuantite()%></td>
-
-                <td><a href="PanierControler?reference=<%= p.getReference()%>">Ajouter au panier</a></td>
-            </tr>
-            <%}%>
-        </table>
+                        <%-- Pour chaque produit , on ajoute une ligne dans le tableau ... --%>
+                        <% for (Produit p : stock) {%>
 
 
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-        <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    </body>
+                        <tr>
+                            <td><%= p.getReference()%></td>
+                            <td><%= p.getNom()%></td>
+                            <td><%= p.getPrix()%></td>
+                            <td><%= p.getQuantite()%></td>
+
+                            <td><a href="PanierControler?reference=<%= p.getReference()%>"><button class="btn btn-success">Ajouter au panier</button></a></td>
+                        </tr>
+                        <%}%>
+                </div>
+                <div class="col-lg-4">
+                </div>
+            </section>  
+        </div>  
+    </table>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+</body>
 </html>

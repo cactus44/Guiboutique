@@ -60,7 +60,7 @@
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="Catalogue">Poursuivre ma Commande</a></li>
-                        <li><a href="PanierControler?confirm=yes">Finaliser ma Commande</a></li>
+                        <li><a href="PanierControler?action=confirm">Finaliser ma Commande</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

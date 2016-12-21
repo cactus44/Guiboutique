@@ -19,6 +19,7 @@ public class Panier {
     private int quantite;
     private Map<Integer, Integer> panier;
     private Map<Integer, Produit> refandproduit;
+    private int nb_articles;
 
     public Panier() {
         panier = new HashMap<>();
@@ -29,24 +30,22 @@ public class Panier {
     }
 
     /**
-     * Ajoute dans la Map panier contenant en
-     * clé la référence du produit et en valeur
-     * la quantité 
-     * 
+     * Ajoute dans la Map panier contenant en clé la référence du produit et en
+     * valeur la quantité
+     *
      */
-    
     public void addtoPanier(int reference, Produit produit) {
         /*
         Dans une Map la cle devant etre unique , on verrifie
         quelle n'existe pas déja, si elle existe déja on met
         seulement à jour la quantité
-        */
+         */
         if (panier.containsKey(reference) != true) {
             panier.put(reference, 1);
             /*
             On créé une seconde Map pour éviter de faire une
             requete en base pour trouver le produit correspondant à une référence
-            */
+             */
             refandproduit.put(reference, produit);
             this.refandproduit = refandproduit;
 
@@ -77,4 +76,18 @@ public class Panier {
     public Map<Integer, Produit> getReferencesProduits() {
         return refandproduit;
     }
+
+    public int getNbArticles() {
+        if (panier.isEmpty()) {
+            return 0;
+        } else {
+            nb_articles = 0;
+            for (int ref : panier.keySet()) {
+                nb_articles += panier.get(ref);
+            }
+            return nb_articles;
+        }
+
+    }
+
 }

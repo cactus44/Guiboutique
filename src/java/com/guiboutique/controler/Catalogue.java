@@ -6,6 +6,7 @@ package com.guiboutique.controler;
  * and open the template in the editor.
  */
 import com.guiboutique.beans.GestionDeStockItf;
+import com.guiboutique.objets.Panier;
 import com.guiboutique.objets.Produit;
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Catalogue
@@ -57,17 +59,23 @@ public class Catalogue extends HttpServlet {
 
         /* On récupère le contenu du stock, on place tous les objets Produit 
         dans une liste */
-        
         List<Produit> stock = gds.getListeDesProduitsEnStock();
-        
+
         /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */
-        
         this.getServletContext().setAttribute("stock", stock);
-        
+
+        //init Panier
+        HttpSession session = request.getSession();
+        if (session.getAttribute("panier") == null) {
+            Panier panier = new Panier();
+            session.setAttribute("panier", panier);
+        }
+
         /* On forward les requetes et reponses à la jsp catalogue.jsp qui sera chargée de faire
         l'affichage
          */
         this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
+
     }
 
     /**

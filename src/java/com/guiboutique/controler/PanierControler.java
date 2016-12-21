@@ -59,9 +59,11 @@ public class PanierControler extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //mise à jour du stock sur confirmation (uri:PanierControler?confirm=yes)
-        String confirmation = request.getParameter("confirm");
-        if ("yes".equals(confirmation)) {
+        //Routage 
+        String action = request.getParameter("action");
+
+        //mise à jour du stock sur confirmation (uri:PanierControler?confirm=yes)       
+        if ("confirm".equals(action)) {
 
             /* on itère sur chacune des clefs contenues dans la map et on
             recupère la value associée et on destocke */
@@ -83,35 +85,37 @@ public class PanierControler extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/WEB-INF/confirm.jsp").forward(request, response);
         }
 
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(1800);
+        if ("panier".equals(action)) {
+            //On redirige vers panier.jsp
+            this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
 
-        //On recupere la reference de l'article que l'on va ajouter à l'objet Panier
-        int reference = Integer.parseInt(request.getParameter("reference"));
+        }
+        
+        else {
 
-        /*On ajoute la reference et le produit associé dans l'objet Panier. On
+            //On recupere la reference de l'article que l'on va ajouter à l'objet Panier
+            if  ( request.getParameter("reference") != null){
+            int reference = Integer.parseInt(request.getParameter("reference"));
+
+            /*
+        On récupère la session de l'utilisateur
+             */
+            HttpSession session = request.getSession();
+            Panier panier = (Panier) session.getAttribute("panier");
+
+
+            /*On ajoute la reference et le produit associé dans l'objet Panier. On
         récupère l'Objet Produit dans la base de donnée à partir de la référence
         passée en paramètre dans l'url (clé primaire), ils sont ensuite passées
         en paramêtres
-         */
- /*
-        On vérifie que l'internaute n'a pas déja un panier, si n'est pas le cas on en
-        instancie 1 , sinon on réutilise celui de la session de l'internaute
-         */
-        if (session.getAttribute("panier") == null) {
-            Panier panier = new Panier();
+             */
             panier.addtoPanier(reference, gds.getProduit(reference));
-             //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
-            session.setAttribute("panier", panier);
-        } else {
-            Panier panier = (Panier) session.getAttribute("panier");
-            panier.addtoPanier(reference, gds.getProduit(reference));
-             //On indique l'attribut (référence de l'objet) que l'on retourne à la jsp panier.jsp
-            session.setAttribute("panier", panier);
-        }
 
-        //On redirige vers panier.jsp
-        this.getServletContext().getRequestDispatcher("/WEB-INF/panier.jsp").forward(request, response);
+            //On redirige vers catalogue.jsp
+            this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
+
+        }}
+
     }
 
     /**
@@ -138,5 +142,4 @@ public class PanierControler extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-   
 }
