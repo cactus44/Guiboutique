@@ -77,8 +77,8 @@
 
         <div class="container">
             <section class="row">
-                <div class="col-lg-8"> 
-                    <table class="table table-bordered">
+                <div class="col-md-8"> 
+                    <table class="table table-bordered table-striped">
                         <th>Référence</th>
                         <th>Nom du produit</th>
                         <th>Prix</th>
@@ -101,8 +101,6 @@
                             <td><a href="PanierControler?reference=<%= p.getReference()%>"><button class="btn btn-success">Ajouter au panier</button></a></td>
                         </tr>
                         <%}%>
-                </div>
-                <div class="col-lg-4">
                 </div>
             </section>  
         </div>  

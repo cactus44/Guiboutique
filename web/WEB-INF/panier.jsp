@@ -87,7 +87,7 @@
         <div class="container">
             <section class="row">
                 <div class="col-lg-8"> 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
             <th>Référence</th>
             <th>Nom du produit</th>
             <th>Quantité</th>
@@ -130,6 +130,8 @@
         </table>
             <a href="Catalogue"><button class="btn btn-success">Poursuivre ma Commande</button></a>
             <a href="PanierControler?action=confirm"><button class="btn btn-danger">Finaliser ma Commande</button></a>
+        </div>
+            </section>
         </div>
             
 
