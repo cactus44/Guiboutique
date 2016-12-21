@@ -55,12 +55,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <!--   <a class="navbar-brand" href="#">La Guiboutique</a> -->
+                    <a class="navbar-brand" href="#">La Guiboutique</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="Catalogue">Poursuivre ma Commande</a></li>
-                        <li><a href="PanierControler?action=confirm">Finaliser ma Commande</a></li>
+                        <li ><a href="/Guiboutique">Accueil</a></li>
+                        <li class="inactive"><a href="Catalogue">Catalogue</a></li>
+                        <li class="active"><a href="PanierControler?action=panier">Mon Panier</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -83,7 +84,9 @@
             <h1>Panier</h1>
         </div>
 
-
+        <div class="container">
+            <section class="row">
+                <div class="col-lg-8"> 
         <table class="table table-bordered">
             <th>Référence</th>
             <th>Nom du produit</th>
@@ -124,10 +127,11 @@
                 <td></td>
                 <td><%= montant%></td>
             </tr>
-
-
-
         </table>
+            <a href="Catalogue"><button class="btn btn-success">Poursuivre ma Commande</button></a>
+            <a href="PanierControler?action=confirm"><button class="btn btn-danger">Finaliser ma Commande</button></a>
+        </div>
+            
 
 
 
