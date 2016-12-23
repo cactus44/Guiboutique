@@ -68,16 +68,17 @@
         
 
        
-
+        <div class="container-fluid">
         <div class="page-header">
             <h1>Liste des produits en stock</h1>
             <p>        <% Panier panier = (Panier) session.getAttribute("panier"); %>
-                Vous avez <%=panier.getNbArticles()%> articles dans votre panier. </p>
+                Vous avez <b><%=panier.getNbArticles()%></b> articles dans votre panier. </p>
+        </div>
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
             <section class="row">
-                <div class="col-md-8"> 
+                <div class="col-md-5"> 
                     <table class="table table-bordered table-striped">
                         <th>Référence</th>
                         <th>Nom du produit</th>

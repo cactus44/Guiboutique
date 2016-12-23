@@ -66,27 +66,15 @@
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
-
-        <!--
-          <div class="container">
-    
-          <div class="starter-template">
-            <h1>Bienvenue sur la boutique à Guigui et Fifi</h1>
-            <p class="lead">Cette boutique à été réalisée dans le cade du Défi IFI.<br> Elle est basé sur des JSP/Servlet.</p>
-          </div>
-    
-        </div><!-- /.container -->
-
-        <!--session     <%= session.getId()%>
-        creation time <%= session.getCreationTime()%>
-        -->
+        
+        <div class="container-fluid">
         <div class="page-header">
             <h1>Panier</h1>
-        </div>
+        </div></div>
 
-        <div class="container">
+        <div class="container-fluid">
             <section class="row">
-                <div class="col-lg-8"> 
+                <div class="col-md-5"> 
         <table class="table table-bordered table-striped">
             <th>Référence</th>
             <th>Nom du produit</th>
