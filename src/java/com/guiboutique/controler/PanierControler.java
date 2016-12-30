@@ -110,6 +110,16 @@ public class PanierControler extends HttpServlet {
         en paramêtres
              */
             panier.addtoPanier(reference, gds.getProduit(reference));
+            
+            List<Produit> stock = (List<Produit>) this.getServletContext().getAttribute("stock");
+         //   List<Produit> stock = (List<Produit>) request..getAttribute("stock");
+            for (Produit p : stock){
+                if ( p.getReference() == reference ){
+                    int q = p.getQuantite();
+                    q--;
+                    p.setQuantite(q);
+                }
+            }
 
             //On redirige vers catalogue.jsp
             this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);

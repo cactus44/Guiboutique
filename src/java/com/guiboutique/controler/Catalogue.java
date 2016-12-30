@@ -58,11 +58,16 @@ public class Catalogue extends HttpServlet {
             throws ServletException, IOException {
 
         /* On récupère le contenu du stock, on place tous les objets Produit 
-        dans une liste */
-        List<Produit> stock = gds.getListeDesProduitsEnStock();
-
-        /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */
-        this.getServletContext().setAttribute("stock", stock);
+        dans une liste , seulement si elle n'existe pas déja , fonctionnalité
+        mise à jour interractive (affichage seulement, la mise à jour du stock
+        n'est faite seulement à la confirmation
+        */
+        
+        if (this.getServletContext().getAttribute("stock") == null) {
+            List<Produit> stock = gds.getListeDesProduitsEnStock();
+            /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */
+            this.getServletContext().setAttribute("stock", stock);
+        }
 
         //init Panier
         HttpSession session = request.getSession();
