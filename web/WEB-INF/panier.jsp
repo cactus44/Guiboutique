@@ -11,7 +11,7 @@
 <%@page import="com.guiboutique.objets.Panier"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html class="full" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,62 +64,65 @@
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
-        
+
         <div class="container-fluid">
-        <div class="page-header">
-            <h1>Panier</h1>
-        </div></div>
+            <div class="page-header">
+                <h1>Panier</h1>
+            </div></div>
 
         <div class="container-fluid">
             <section class="row">
                 <div class="col-md-5"> 
-        <table class="table table-bordered table-striped">
-            <th>Référence</th>
-            <th>Nom du produit</th>
-            <th>Quantité</th>
-            <th>Prix unitaire</th>
-            <th>Montant</th>
+                    <table class="table table-bordered table-striped">
+                        <th>Référence</th>
+                        <th>Nom du produit</th>
+                        <th>Quantité</th>
+                        <th>Prix unitaire</th>
+                        <th>Montant</th>
 
-            <%
-                //On récupère le panier dans la JSP
-                Panier panier = (Panier) session.getAttribute("panier");
+                        <%
+                            //On récupère le panier dans la JSP
+                            Panier panier = (Panier) session.getAttribute("panier");
 
-                //Variable pour calcul du montant du panier
-                int montant = 0;
+                            //Variable pour calcul du montant du panier
+                            int montant = 0;
 
-                /* Pour chaque produit ajouté au Panier(Map) , je recupere la référence
-                /* que j'utilise ensuite pour récuperer la quantite ajoutée au panier */
-                for (int reference : panier.getReferencesProduits().keySet()) {
-                    //On récupère le produit associé à la référence passée en paramètre (la référence est la clé de la Map)
-                    Produit p = panier.getReferencesProduits().get(reference);
+                            /* Pour chaque produit ajouté au Panier(Map) , je recupere la référence
+                            /* que j'utilise ensuite pour récuperer la quantite ajoutée au panier */
+                            for (int reference : panier.getReferencesProduits().keySet()) {
+                                //On récupère le produit associé à la référence passée en paramètre (la référence est la clé de la Map)
+                                Produit p = panier.getReferencesProduits().get(reference);
 
-                    //On récupère la quantité associée à la référence passée en paramètre
-                    int quantite = panier.getQuantitesFromReferences().get(reference);
+                                //On récupère la quantité associée à la référence passée en paramètre
+                                int quantite = panier.getQuantitesFromReferences().get(reference);
 
-                    //Calcul du montant total
-                    montant += (p.getPrix() * quantite);
-            %>
-            <tr><td><%= p.getReference()%></td>
-                <td><%= p.getNom()%></td>
-                <td><%= quantite%></td>
-                <td><%= p.getPrix()%></td>
-                <td><%= p.getPrix() * quantite%></td>
-            </tr>
-            <%}%>
-            <tr>
-                <td><b>Montant Total en Euros</b></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><%= montant%></td>
-            </tr>
-        </table>
-            <a href="Catalogue"><button class="btn btn-success">Poursuivre ma Commande</button></a>
-            <a href="PanierControler?action=confirm"><button class="btn btn-danger">Finaliser ma Commande</button></a>
+                                //Calcul du montant total
+                                montant += (p.getPrix() * quantite);
+                        %>
+                        <tr><td><%= p.getReference()%></td>
+                            <td><%= p.getNom()%></td>
+                            <td><%= quantite%></td>
+                            <td><%= p.getPrix()%></td>
+                            <td><%= p.getPrix() * quantite%></td>
+                        </tr>
+                        <%}%>
+                        <tr>
+                            <td><b>Montant Total en Euros</b></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><%= montant%></td>
+                        </tr>
+                    </table>
+                    <a href="Catalogue"><button class="btn btn-success">Poursuivre ma Commande</button></a>
+                    <a href="PanierControler?action=confirm"><button class="btn btn-danger">Finaliser ma Commande</button></a>
+                    <p></p>
+                    <div class="full"></div>
+                </div>
+            </section>    
         </div>
-            </section>
-        </div>
-            
+
+
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
