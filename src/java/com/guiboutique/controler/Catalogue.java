@@ -57,14 +57,23 @@ public class Catalogue extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        /* On récupère le contenu du stock, on place tous les objets Produit 
+        /* On récupère le contenu du stock, on place tous les objets Produit
         dans une liste , seulement si elle n'existe pas déja , fonctionnalité
         mise à jour interractive (affichage seulement, la mise à jour du stock
         n'est faite seulement à la confirmation
-        */
-        
+         */
         if (this.getServletContext().getAttribute("stock") == null) {
             List<Produit> stock = gds.getListeDesProduitsEnStock();
+
+            /*
+            Si jamais la base est vide , premier lancement par exemple, on
+            l'initialise avec un jeu de données.
+             */
+            if (stock.isEmpty()) {
+                gds.init();
+                stock = gds.getListeDesProduitsEnStock();
+            }
+
             /* On rend le stock accessible à toutes les servlets et JSP (niveau application) */
             this.getServletContext().setAttribute("stock", stock);
         }
@@ -80,7 +89,6 @@ public class Catalogue extends HttpServlet {
         l'affichage
          */
         this.getServletContext().getRequestDispatcher("/WEB-INF/catalogue.jsp").forward(request, response);
-
     }
 
     /**

@@ -7,7 +7,6 @@
 <%@page import="com.guiboutique.objets.Panier"%>
 <%@page import="java.util.List"%>
 <%@page import="com.guiboutique.objets.Produit"%>
-<%@page import="com.guiboutique.objets.Stock"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +43,6 @@
     </head>
 
     <body>
-
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -66,8 +64,6 @@
             </div>
         </nav>
         
-
-       
         <div class="container-fluid">
         <div class="page-header">
             <h1>Liste des produits en stock</h1>
@@ -106,7 +102,6 @@
             </section>  
         </div>  
     </table>
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

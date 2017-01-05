@@ -6,7 +6,6 @@
 
 <%@page import="java.util.List"%>
 <%@page import="com.guiboutique.objets.Produit"%>
-<%@page import="com.guiboutique.objets.Stock"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Set"%>
 <%@page import="com.guiboutique.objets.Panier"%>
@@ -45,7 +44,6 @@
     </head>
 
     <body>
-
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -122,9 +120,6 @@
             </section>
         </div>
             
-
-
-
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
