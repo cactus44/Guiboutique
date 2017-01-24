@@ -95,7 +95,7 @@
                             <td><%= p.getPrix()%></td>
                             <td><%= p.getQuantite()%></td>
 
-                            <td><a href="PanierControler?reference=<%= p.getReference()%>"><button class="btn btn-success">Ajouter au panier</button></a></td>
+                            <td><% if ( p.getQuantite() == 0 ) { out.print(""); continue; }%> <a href="PanierControler?reference=<%= p.getReference()%>"><button class="btn btn-success">Ajouter au panier</button></a></td>
                         </tr>
                         <%}%>
                 </div>
