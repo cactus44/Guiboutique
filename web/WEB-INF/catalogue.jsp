@@ -94,7 +94,7 @@
                             <td><%= p.getNom()%></td>
                             <td><%= p.getPrix()%></td>
                             <td><%= p.getQuantite()%></td>
-
+                        <%-- Si le produit n'est plus disponible , on enlève le bouton --%>
                             <td><% if ( p.getQuantite() == 0 ) { out.print(""); continue; }%> <a href="PanierControler?reference=<%= p.getReference()%>"><button class="btn btn-success">Ajouter au panier</button></a></td>
                         </tr>
                         <%}%>
