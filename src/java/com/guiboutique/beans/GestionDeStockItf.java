@@ -16,7 +16,8 @@ import javax.ejb.Local;
 @Local
 public interface GestionDeStockItf {
     
-    public void AddProduitToStock(Produit p);   
+    public void AddProduitToStock(Produit p);  
+    
     public void init();
     
     public String getNomDuProduit(int reference);
